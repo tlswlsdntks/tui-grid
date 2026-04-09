@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <title>Row Button Action</title>
+    <title>30. Row Button Action</title>
     <link rel="stylesheet" type="text/css" href="./css/tui-example-style.css" />
     <link rel="stylesheet" type="text/css" href="../dist/tui-grid.css" />
     <style>
@@ -47,53 +47,52 @@
       <div id="grid"></div>
     </div>
   </body>
-
   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
   <script type="text/javascript" src="../dist/tui-grid.js"></script>
   <script type="text/babel" class="code-js">
     const rowData = [
-      {
-        id: 1,
-        name: 'John',
-        department: 'Sales',
-        position: 'Assistant Manager',
-        detail: 'Detail',
-        remove: 'Delete',
-      },
-      {
-        id: 2,
-        name: 'Mike',
-        department: 'Development',
-        position: 'Manager',
-        detail: 'Detail',
-        remove: 'Delete',
-      },
-      {
-        id: 3,
-        name: 'Emma',
-        department: 'Planning',
-        position: 'Staff',
-        detail: 'Detail',
-        remove: 'Delete',
-      },
+        {
+            id: 1001,
+            name: 'John',
+            department: 'Sales',
+            position: 'Assistant Manager',
+            detail: 'Detail',
+            remove: 'Delete',
+        },
+        {
+            id: 1002,
+            name: 'Mike',
+            department: 'Development',
+            position: 'Manager',
+            detail: 'Detail',
+            remove: 'Delete',
+        },
+        {
+            id: 1003,
+            name: 'Emma',
+            department: 'Planning',
+            position: 'Staff',
+            detail: 'Detail',
+            remove: 'Delete',
+        },
     ];
 
     const appendData = {
-      id: 4,
-      name: 'David',
-      department: 'Marketing',
-      position: 'Staff',
-      detail: 'Detail',
-      remove: 'Delete',
+        id: 1004,
+        name: 'David',
+        department: 'Marketing',
+        position: 'Staff',
+        detail: 'Detail',
+        remove: 'Delete',
     };
 
     const prependData = {
-      id: 0,
-      name: 'Sophia',
-      department: 'Strategy',
-      position: 'Director',
-      detail: 'Detail',
-      remove: 'Delete',
+        id: 1000,
+        name: 'Sophia',
+        department: 'Strategy',
+        position: 'Director',
+        detail: 'Detail',
+        remove: 'Delete',
     };
 
     class DetailButtonRenderer {
