@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>9. Summary</title>
+    <link rel="stylesheet" type="text/css" href="./css/tui-example-style.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/tui-grid.css" />
+  </head>
+  <body>
+    <div class="description">
+  튜토리얼은
+  <a
+    href="https://github.com/nhn/tui.grid/blob/master/packages/toast-ui.grid/docs/ko/getting-started.md"
+    target="_blank"
+    >여기에서</a
+  >
+  볼 수 있습니다.
+  <br />
+  <strong>
+    예제 코드는 babel-standalone에 의해 런타임에 트랜스파일링되므로 사용자의 환경보다 속도가 느릴 수 있습니다.
+  </strong>
+</div>
+    <div class="code-html contents">
+      <div id="grid"></div>
+    </div>
+  </body>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  <script type="text/javascript" src="../dist/tui-grid.js"></script>
+  <script type="text/babel" class="code-js">
+    const gridData = [];
+    (function () {
+      for (let i = 0; i < 120; i += 1) {
+        gridData.push({
+          c1: 'User' + (i + 1),
+          c2: ((i + 5) % 8) * 100 + i,
+          c3: ((i + 3) % 7) * 60,
+        });
+      }
+    })();
+
+    const grid = new tui.Grid({
+      el: document.getElementById('grid'),
+      data: gridData,
+      scrollX: false,
+      bodyHeight: 300,
+      rowHeaders: ['rowNum'],
+      columns: [
+        {
+          header: 'User ID',
+          name: 'c1',
+          align: 'center',
+          editor: 'text',
+        },
+        {
+          header: 'Score',
+          name: 'c2',
+          className: 'clickable',
+          editor: 'text',
+        },
+        {
+          header: 'Item Count',
+          name: 'c3',
+          editor: 'text',
+        },
+      ],
+      summary: {
+        height: 40,
+        position: 'bottom', // or 'top'
+        columnContent: {
+          c2: {
+            template: function (valueMap) {
+              return `MAX: ${valueMap.max}<br>MIN: ${valueMap.min}`;
+            },
+          },
+          c3: {
+            template: function (valueMap) {
+              return `TOTAL: ${valueMap.sum} <br>AVG: ${valueMap.avg.toFixed(2)}`;
+            },
+          },
+        },
+      },
+    });
+  </script>
+</html>

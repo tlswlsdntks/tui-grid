@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>14. Tree</title>
+    <link rel="stylesheet" type="text/css" href="./css/tui-example-style.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/tui-grid.css" />
+  </head>
+
+  <body>
+    <div class="description">
+  튜토리얼은
+  <a
+    href="https://github.com/nhn/tui.grid/blob/master/packages/toast-ui.grid/docs/ko/getting-started.md"
+    target="_blank"
+    >여기에서</a
+  >
+  볼 수 있습니다.
+  <br />
+  <strong>
+    예제 코드는 babel-standalone에 의해 런타임에 트랜스파일링되므로 사용자의 환경보다 속도가 느릴 수 있습니다.
+  </strong>
+</div>
+    <div class="contents">
+      <div class="code-html">
+        <div id="grid"></div>
+      </div>
+    </div>
+  </body>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  <script type="text/javascript" src="../dist/tui-grid.js"></script>
+  <script type="text/javascript" src="./data/tree-dummy.js"></script>
+  <script type="text/babel" class="code-js">
+    const grid = new tui.Grid({
+      el: document.getElementById('grid'),
+      data: treeData,
+      rowHeaders: ['checkbox'],
+      bodyHeight: 500,
+      treeColumnOptions: {
+        name: 'name',
+        useCascadingCheckbox: true,
+      },
+      columns: [
+        {
+          header: 'Name',
+          name: 'name',
+          width: 300,
+        },
+        {
+          header: 'Artist',
+          name: 'artist',
+        },
+        {
+          header: 'Type',
+          name: 'type',
+        },
+        {
+          header: 'Release',
+          name: 'release',
+        },
+        {
+          header: 'Genre',
+          name: 'genre',
+        },
+      ],
+    });
+
+    grid.on('expand', (ev) => {
+      const { rowKey } = ev;
+      const descendantRows = grid.getDescendantRows(rowKey);
+
+      console.log('rowKey: ' + rowKey);
+      console.log('descendantRows: ' + descendantRows);
+
+      if (!descendantRows.length) {
+        grid.appendRow(
+          {
+            name: 'dynamic loading data',
+            _children: [
+              {
+                name: 'leaf row',
+              },
+              {
+                name: 'internal row',
+                _children: [],
+              },
+            ],
+          },
+          { parentRowKey: rowKey }
+        );
+      }
+    });
+
+    grid.on('collapse', (ev) => {
+      const { rowKey } = ev;
+      const descendantRows = grid.getDescendantRows(rowKey);
+
+      console.log('rowKey: ' + rowKey);
+      console.log('descendantRows: ' + descendantRows);
+    });
+  </script>
+</html>
