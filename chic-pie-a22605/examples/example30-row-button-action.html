@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Row Button Action</title>
+    <link rel="stylesheet" type="text/css" href="./css/tui-example-style.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/tui-grid.css" />
+    <style>
+      .btn-wrapper {
+        margin-bottom: 10px;
+      }
+
+      .grid-btn {
+        padding: 4px 8px;
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .grid-btn:hover {
+        background: #f5f5f5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="description">
+  튜토리얼은
+  <a
+    href="https://github.com/nhn/tui.grid/blob/master/packages/toast-ui.grid/docs/ko/getting-started.md"
+    target="_blank"
+    >여기에서</a
+  >
+  볼 수 있습니다.
+  <br />
+  <strong>
+    예제 코드는 babel-standalone에 의해 런타임에 트랜스파일링되므로 사용자의 환경보다 속도가 느릴 수 있습니다.
+  </strong>
+</div>
+    <div class="code-html contents">
+      <div class="btn-wrapper">
+        <button id="appendBtn">appendBtn</button>
+        <button id="prependBtn">prependBtn</button>
+      </div>
+      <div id="grid"></div>
+    </div>
+  </body>
+
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  <script type="text/javascript" src="../dist/tui-grid.js"></script>
+  <script type="text/babel" class="code-js">
+    const rowData = [
+      {
+        id: 1,
+        name: 'John',
+        department: 'Sales',
+        position: 'Assistant Manager',
+        detail: 'Detail',
+        remove: 'Delete',
+      },
+      {
+        id: 2,
+        name: 'Mike',
+        department: 'Development',
+        position: 'Manager',
+        detail: 'Detail',
+        remove: 'Delete',
+      },
+      {
+        id: 3,
+        name: 'Emma',
+        department: 'Planning',
+        position: 'Staff',
+        detail: 'Detail',
+        remove: 'Delete',
+      },
+    ];
+
+    const appendData = {
+      id: 4,
+      name: 'David',
+      department: 'Marketing',
+      position: 'Staff',
+      detail: 'Detail',
+      remove: 'Delete',
+    };
+
+    const prependData = {
+      id: 0,
+      name: 'Sophia',
+      department: 'Strategy',
+      position: 'Director',
+      detail: 'Detail',
+      remove: 'Delete',
+    };
+
+    class DetailButtonRenderer {
+      constructor(props) {
+        const el = document.createElement('button');
+        el.className = 'grid-btn';
+        el.textContent = props.value;
+
+        el.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+
+          const row = props.grid.getRow(props.rowKey);
+
+          alert(
+            [
+              'ID: ' + row.id,
+              'Name: ' + row.name,
+              'Department: ' + row.department,
+              'Position: ' + row.position,
+            ].join('\n')
+          );
+        });
+
+        this.el = el;
+      }
+
+      getElement() {
+        return this.el;
+      }
+
+      render(props) {
+        this.el.textContent = props.value;
+      }
+    }
+
+    class DeleteButtonRenderer {
+      constructor(props) {
+        const el = document.createElement('button');
+        el.className = 'grid-btn';
+        el.textContent = props.value;
+
+        el.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+
+          const row = props.grid.getRow(props.rowKey);
+
+          if (confirm('Are you sure you want to delete [' + row.name + ']?')) {
+            props.grid.removeRow(props.rowKey);
+          }
+        });
+
+        this.el = el;
+      }
+
+      getElement() {
+        return this.el;
+      }
+
+      render(props) {
+        this.el.textContent = props.value;
+      }
+    }
+
+    const grid = new tui.Grid({
+      el: document.getElementById('grid'),
+      data: rowData,
+      scrollX: false,
+      scrollY: false,
+      bodyHeight: 400,
+      rowHeaders: ['rowNum'],
+      columns: [
+        {
+          header: 'ID',
+          name: 'id',
+          align: 'center',
+          width: 80,
+        },
+        {
+          header: 'Name',
+          name: 'name',
+        },
+        {
+          header: 'Department',
+          name: 'department',
+        },
+        {
+          header: 'Position',
+          name: 'position',
+        },
+        {
+          header: 'Detail',
+          name: 'detail',
+          align: 'center',
+          width: 100,
+          renderer: {
+            type: DetailButtonRenderer,
+          },
+        },
+        {
+          header: 'Delete',
+          name: 'remove',
+          align: 'center',
+          width: 100,
+          renderer: {
+            type: DeleteButtonRenderer,
+          },
+        },
+      ],
+    });
+
+    const appendBtn = document.getElementById('appendBtn');
+    const prependBtn = document.getElementById('prependBtn');
+
+    appendBtn.addEventListener('click', () => {
+      grid.appendRow(appendData);
+    });
+
+    prependBtn.addEventListener('click', () => {
+      grid.prependRow(prependData);
+    });
+  </script>
+</html>
